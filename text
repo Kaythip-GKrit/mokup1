@@ -1,0 +1,1 @@
+ ${item.alert && !item.checked ?  `<span style="font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : item.alert && item.ischecked ? '' : ''}

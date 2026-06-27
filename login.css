@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap');
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Prompt', sans-serif;
+    height: 100%;
+    color: #fff;
+    overflow: hidden;
+}
+
+#root {
+    height: 100vh;
+}
+
+.home-container {
+    position: relative;
+    height: 100vh;
+    background-image: url("https://th.airportels.asia/wp-content/uploads/sites/2/2022/11/%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B9%8B%E0%B8%B2-20-%E0%B9%83%E0%B8%9A%E0%B8%88%E0%B8%B4%E0%B9%8B%E0%B8%A7-3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+    backdrop-filter: blur(2px);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 3rem;
+    animation: fadeIn 1s ease-out;
+    /* border: 5px solid black; */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-badge {
+    display: inline-block;
+    background: #3784ff;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(55, 132, 255, 0.3);
+}
+
+h1 {
+    font-size: 5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    line-height: 1;
+    letter-spacing: -2px;
+    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* border: 2px solid orange; */
+    padding: 10px ;
+}
+
+.subtitle {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.accent-text {
+    color: #3784ff;
+    font-weight: 600;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+.login-button-home {
+    background-color: #3784ff;
+    color: white;
+    border: none;
+    width: 200px;
+    height: 56px;
+    display: flex;
+    justify-content: center; /* จัดกลางแนวนอน */
+    align-items: center;     /* จัดกลางแนวตั้ง */
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(55, 132, 255, 0.2);
+}
+
+.register-button-home {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: 200px;
+    height: 56px;
+    display: flex;
+    justify-content: center; /* จัดกลางแนวนอน */
+    align-items: center;     /* จัดกลางแนวตั้ง */
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.login-button-home:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(55, 132, 255, 0.4);
+    background-color: #4a91ff;
+}
+
+.register-button-home:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: translateY(-5px);
+}
+
+
+
+@media (max-width: 768px) {
+    h1 { font-size: 3rem; }
+    .button-container { flex-direction: column; align-items: center; }
+    .features-mini { gap: 1.5rem; }
+}
+/* From Uiverse.io by liyaxu123 username&password */ 
+/* From Uiverse.io by liyaxu123 */ 
+.form-control {
+  position: relative;
+  /* margin: 20px 0 40px; */
+  width: 190px;
+}
+
+.form-control input {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px #fff solid;
+  display: block;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.form-control input:focus,
+.form-control input:valid {
+  outline: 0;
+  border-bottom-color: lightblue;
+}
+
+.form-control label {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  pointer-events: none;
+}
+
+.form-control label span {
+  display: inline-block;
+  font-size: 18px;
+  min-width: 5px;
+  color: #fff;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-control input:focus+label span,
+.form-control input:valid+label span {
+  color: lightblue;
+  transform: translateY(-30px);
+}
+/* From Uiverse.io by Praashoo7 */ 

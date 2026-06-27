@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>whopackwhopay - เว็บไซต์เตรียมสัมภาระและหารค่าทริปสุดล้ำ</title>
+  <meta name="description"
+    content="วางแผนการท่องเที่ยว จัดการสัมภาระเดี่ยวและกลุ่ม พร้อมระบบหารค่าใช้จ่ายและคำนวณงบประมาณกลุ่มอย่างมีประสิทธิภาพ">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="uiverseHome.css">
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar" id="app-navbar">
+      <div class="nav-left">
+        <div class="logo" id="logo-click-nav">whopackwhopay</div>
+        <div class="nav-links">
+          <a href="#" class="nav-link" onclick="navigateTo('home')">หน้าหลัก</a>
+          <a href="#" class="nav-link"
+            onclick="showToast('ติดต่อทีมงาน: support@whopackwhopay.com', 'info')">ติดต่อเรา</a>
+          <a href="#" class="nav-link"
+            onclick="showToast('whopackwhopay ช่วยให้การเตรียมกระเป๋าและหารค่าทริปเป็นเรื่องง่าย!', 'info')">เกี่ยวกับ</a>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <!-- Admin Panel Toggle (To facilitate testing all features including admin requirements) -->
+        <button class="btn btn-secondary btn-sm" style="color: #ffffff;
+         background: #1a3050;
+         height: 35px;
+         " onclick="toggleAdminPanel()">โหมด Admin</button>
+
+        <!-- Plus Trip Button -->
+        <button class="btn btn-primary btn-sm" style="
+        height: 35px;
+
+        " id="create-trip-nav-btn">ทริปการเดินทางใหม่</button>
+
+        <!-- Profile trigger dropdown -->
+        <div class="profile-trigger" onclick="toggleProfileDropdown()">
+          <img
+            src="https://www.lemon8-app.com/seo/image?item_id=7467780502347317776&index=0&sign=cc87ef893df901cae1bf9135a9706420"
+            class="profile-avatar" alt="Avatar">
+          <span class="username" id="navbar-username-label">Kayth</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- User Profile Dropdown Panel (Drawer) -->
+    <div class="profile-dropdown" id="profile-dropdown">
+      <div class="profile-dropdown-header">
+        <img
+          src="https://www.lemon8-app.com/seo/image?item_id=7467780502347317776&index=0&sign=cc87ef893df901cae1bf9135a9706420"
+          class="profile-dropdown-avatar" alt="Avatar Large">
+        <div class="profile-info">
+          <div class="profile-username-group">
+            <span class="profile-username" id="dropdown-displayname">Kayth</span>
+            <button class="profile-edit-name-btn" onclick="openEditProfileNameDialog()">✏️ เปลี่ยนชื่อ</button>
+          </div>
+          <span class="profile-email" id="dropdown-username">@kayth</span>
+          <span class="profile-email" id="dropdown-email">kayth@whopack.com</span>
+        </div>
+      </div>
+
+      <div class="badges-title">ป้ายรางวัลสะสม (กดเปิด/ปิดแสดงผล)</div>
+      <div class="badges-container" id="dropdown-badges-container">
+        <!-- Badges will render here dynamically -->
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-box">
+          <div class="stat-val" id="dropdown-total-spent">฿0</div>
+          <div class="stat-label">ค่าใช้จ่ายสะสมรวม</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="dropdown-project-count">3</div>
+          <div class="stat-label">ทริปทั้งหมด</div>
+        </div>
+      </div>
+
+      <button class="btn btn-danger" style="width:100%;" onclick="handleLogout()"><a
+          href="index.html">ออกจากระบบ</a></button>
+    </div>
+
+    <!-- Toast notifications panel container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-content">
+
+      <!-- Admin Workspace Section (Toggled dynamically) -->
+      <div id="admin-dashboard-container" style="display:none; margin-bottom:2rem;"></div>
+
+      <!-- 1. HOME VIEW -->
+      <div id="home-view" class="view-section active">
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h1 class="hero-title">whopackwhopay</h1>
+            <p class="hero-subtitle">เตรียมสัมภาระ รับการแจ้งเตือน สรุปผลการคำนวณ</p>
+            <div class="hero-actions-container">
+              <button class="expore-button"
+                onclick="scrollToSection('community-landing-section')">สำรวจการท่องเที่ยว</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features / Why Choose Us Section -->
+        <div class="features-section">
+          <div class="features-left">
+            <h2 class="features-title">เตรียมสัมภาระ วางแผน แล้วไป <span style="color: red;">ผลาญเงิน</span>ด้วยกันกับเพื่อนของคุณ whopackwhopay</h2>
+            <p class="features-desc">เราแก้ไขปัญหาการจัดของเดินทางและการแชร์ยอดใช้จ่ายกลุ่มที่ซับซ้อนให้เป็นเรื่องง่าย
+              สะดวก รวดเร็ว </p>
+
+            <!-- <div class="features-stats">
+              <div class="stat-item">
+                <span class="stat-number">12k+</span>
+                <span class="stat-text">ผู้ใช้งานที่มีความสุข</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">1,500+</span>
+                <span class="stat-text">ทริปสำเร็จราบรื่น</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">99%</span>
+                <span class="stat-text">ลดข้อโต้แย้งในกลุ่ม</span>
+              </div>
+            </div> -->
+          </div>
+
+          <div class="features-right">
+            <!-- From Uiverse.io by Ali-Tahmazi99 -->
+            <button class="add-project" onclick="navigateTo('create-trip')">
+              <span>
+                <h2>เริ่มทริปการเดินทางใหม่</h2>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- My Trips Dashboard Section -->
+        <div class="my-trips-section">
+          <div class="section-header">
+            <h2 class="section-title">โปรเจกต์การเดินทางทั้งหมดของฉัน</h2>
+          </div>
+          <div class="trips-container grid-trips" id="active-trips-list">
+            <!-- Active trips render here dynamically -->
+          </div>
+        </div>
+
+        <!-- Top Destinations (Community) Section -->
+        <div class="community-landing-container" id="community-landing-section">
+          <div class="community-landing-header">
+            <div class="community-header-text">
+              <h2 class="section-title">แผนทริปท่องเที่ยวยอดนิยมในคอมมูนิตี้</h2>
+              <p class="section-subtitle">ค้นหาไอเดียและแรงบันดาลใจ
+                หรือร่วมแชร์ทริปท่องเที่ยวที่น่าตื่นเต้นของคุณให้เป็นประโยชน์ต่อผู้อื่น</p>
+            </div>
+          </div>
+          <div class="community-grid-wrapper">
+            <div class="community-grid" id="community-trips-grid">
+              <!-- Shared trips render here dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour Packages (Presets) Section -->
+        <div class="presets-landing-container">
+          <div class="preset-intro-card">
+            <h3 class="preset-intro-title">พรีเซ็ทกระเป๋าเดินทาง</h3>
+
+
+            <div class="presets-counter-wrapper">
+              <span>พรีเซ็ทสะสมของคุณ: </span>
+              <span class="presets-counter" id="presets-counter-label">1/3</span>
+            </div>
+
+            <div id="add-preset-btn-container" class="preset-add-btn-wrapper">
+              <!-- Add Preset button goes here dynamically -->
+            </div>
+          </div>
+
+          <div class="preset-list grid-presets" id="preset-items-list">
+            <!-- Presets list render here dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 2. CREATE NEW TRIP VIEW -->
+      <div id="create-trip-view" class="view-section">
+        <div class="new-trip-card">
+          <h2 class="new-trip-title">ทริปใหม่ ประสบการณ์ใหม่</h2>
+          <p class="new-trip-subtitle">เริ่มต้นสร้างโปรเจกต์เตรียมตัวออกเดินทางไปพร้อมกับกลุ่มเพื่อนๆ</p>
+
+          <form id="new-trip-form" onsubmit="handleStartTripSubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="trip-dest-input">สถานที่ที่จะไป (Destination)</label>
+              <input type="text" id="trip-dest-input" class="form-input"
+                placeholder="พิมพ์ชื่อเป้าหมาย เช่น Shibuya Crossing, Japan" required>
+            </div>
+
+            <div class="date-inputs">
+              <div class="form-group">
+                <label class="form-label" for="trip-start-input">วันเริ่มต้นการเดินทาง</label>
+                <input type="date" id="trip-start-input" class="form-input" value="2026-06-29">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="trip-end-input">วันสิ้นสุดการเดินทาง</label>
+                <input type="date" id="trip-end-input" class="form-input" value="2026-06-30">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="navigateTo('home')">ยกเลิก</button>
+              <button type="submit" class="btn btn-primary">เริ่มทริปใหม่</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 3. TRIP WORKSPACE VIEW (Sidebar layout) -->
+      <div id="trip-details-view" class="view-section">
+
+        <!-- Header summarizing active trip info -->
+        <div id="trip-header-area" class="trip-header-area"></div>
+
+        <div class="trip-workspace">
+
+          <!-- Left side: Navigation Sidebar tabs -->
+          <div class="trip-sidebar" id="trip-sidebar">
+            <!-- Tabs will be rendered here dynamically (differs for ViewOnly mode) -->
+          </div>
+
+          <!-- Right side: Selected tab pane content -->
+          <div class="trip-content" id="trip-tab-content-area">
+            <!-- Loaded tab outputs render here dynamically -->
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- 4. LIVE CHAT WIDGET OVERLAY (Simulating member conversations) -->
+    <div class="chat-widget" id="chat-widget-window">
+      <div class="chat-header">
+        <div class="chat-header-user">
+          <div class="chat-status"></div>
+          <span style="font-weight:600; font-size:0.9rem;" id="chat-partner-name-display">John Packer</span>
+          <span style="font-size:0.75rem; color:var(--text-muted);"
+            id="chat-partner-username-display">@john_packer</span>
+        </div>
+        <button class="modal-close" style="font-size:1.1rem;" onclick="closeChatWidget()">✕</button>
+      </div>
+
+      <div class="chat-body" id="chat-messages-body">
+        <!-- Messages populate here -->
+      </div>
+
+      <div class="chat-footer">
+        <input type="text" id="chat-message-input-text" class="chat-input" placeholder="พิมพ์ข้อความสอบถามที่นี่..."
+          onkeydown="if(event.key === 'Enter') sendChatMessage()">
+        <button class="btn btn-primary btn-sm" onclick="sendChatMessage()">ส่ง</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- DIALOG SYSTEM (MODALS) -->
+  <!-- ========================================== -->
+
+  <!-- Generic Alert/Confirm Modal -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">ยืนยันการทำรายการ</h3>
+        <button class="modal-close" onclick="Dialog.close('confirm-modal')">✕</button>
+      </div>
+      <div class="modal-body" id="confirm-modal-body">
+        <p>คุณต้องการดำเนินการต่อหรือไม่?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" onclick="Dialog.close('confirm-modal')">ยกเลิก</button>
+        <button class="btn btn-primary btn-sm" onclick="Dialog.confirm('confirm-modal')">ตกลง</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preset Creator / Editor Modal -->
+  <div class="modal-overlay" id="preset-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="preset-modal-title">จัดการพรีเซ็ท</h3>
+        <button class="modal-close" onclick="Dialog.close('preset-modal')">✕</button>
+      </div>
+      <div class="modal-body" id="preset-modal-body">
+        <!-- Renders inputs here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" onclick="Dialog.confirm('preset-modal')">เสร็จสิ้น</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

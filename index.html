@@ -3,34 +3,147 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WhoPackWhoPay - index</title>
+  <title>WhoPackWhoPay - เตรียมจัดกระเป๋าและหารค่าทริปกับเพื่อนร่วมทาง</title>
+  <meta name="description" content="เพื่อนร่วมเดินทางที่จะช่วยให้การจัดกระเป๋าของคุณเป็นเรื่องง่าย พร้อมผลาญเงินไปด้วยกันอย่างเป็นระบบ">
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
+  <div class="landing-page">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="index.html" class="logo-link">
+          <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7" width="18" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span class="logo-text">WHOPACKWHOPAY</span>
+        </a>
+      </div>
 
-  <div class="home-container">
-    <div class="overlay"></div>
-    
-    <div class="content">
+      <div class="nav-center">
+        <ul class="nav-menu">
+          <li><a href="#" class="nav-item active">Home</a></li>
+          <li><a href="#" class="nav-item">About</a></li>
+          <li><a href="#" class="nav-item">Item List</a></li>
+          <li><a href="#" class="nav-item">Contact</a></li>
+        </ul>
+      </div>
 
-      <h1>WhoPackWhoPay</h1>
+      <div class="nav-right">
+        <a href="login.html" class="account-link">
+          <svg class="account-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>Account</span>
+        </a>
+      </div>
+    </nav>
 
-      <div class="auth-section">
-        <p class="subtitle">
-          เพื่อนร่วมเดินทางที่จะช่วยให้การจัดกระเป๋าของคุณเป็นเรื่องง่าย <br/>
-          <span class="accent-text">พร้อมผลาญเงินไปด้วยกันอย่างเป็นระบบ</span>
-        </p>
-
-        <div class="button-container">
-          <a href="login.html" class="login-button-home">Login</a>
-          <a href="register.html" class="register-button-home">Register</a>
+    <!-- Main Content Grid -->
+    <main class="hero-grid">
+      <!-- Left Column: Title & CTA -->
+      <div class="hero-left">
+        <h1 class="hero-title">
+          FILL YOUR TRIP<br>
+          WITH THE BEST<br>
+          COMPANIONS
+        </h1>
+        <div class="divider-line"></div>
+        <div class="cta-section">
+          <button class="cta-button" onclick="navigateTo('create-trip')">
+            <span>Start Trip</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          <p class="cta-description">
+            เพื่อนร่วมเดินทางที่จะช่วยให้การจัดกระเป๋าและหารค่าทริปกลุ่มของคุณเป็นเรื่องง่าย รวดเร็ว และเป็นระบบที่สุด
+          </p>
         </div>
-        
-        
       </div>
 
+
+
+      <!-- Right Column: Hero Image -->
+      <div class="hero-right">
+        <div class="image-wrapper">
+          <img src="travel_hero.png" alt="Travel Packing Setup" class="hero-image">
+        </div>
       </div>
+    </main>
+
+    <!-- Bottom Info Grid -->
+    <section class="bottom-grid">
+      <!-- Left: Item List Info -->
+      <div class="bottom-left">
+        <div class="small-image-wrapper">
+          <img src="travel_item.png" alt="Travel Bag Setup" class="small-image">
+        </div>
+        <div class="bottom-link-header">
+          <a href="#" class="item-list-link">
+            <span>ITEM LIST</span>
+            <svg class="arrow-up-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+        </div>
+        <p class="bottom-description">
+          รวบรวมรายการสิ่งของจัดกระเป๋ายอดนิยมจากคอมมูนิตี้ ช่วยแนะนำสิ่งของที่ต้องเตรียมสำหรับทุกภูมิอากาศและทุกรูปแบบทริปอย่างครอบคลุม
+        </p>
+      </div>
+
+      <!-- Center: Fan Design Graphic -->
+      <div class="bottom-center">
+        <svg class="fan-graphic" width="180" height="90" viewBox="0 0 180 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Semi-circle base -->
+          <path d="M 80,90 A 10,10 0 0,1 100,90" fill="#d49463" opacity="0.8"/>
+          <!-- Radiating lines -->
+          <line x1="90" y1="90" x2="10" y2="90" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="12" y2="72" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="20" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="33" y2="38" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="50" y2="26" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="70" y2="18" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="90" y2="15" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="110" y2="18" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="130" y2="26" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="147" y2="38" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="160" y2="54" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="168" y2="72" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <line x1="90" y1="90" x2="170" y2="90" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+          <!-- Concentric arcs -->
+          <path d="M 30,90 A 60,60 0 0,1 150,90" stroke="rgba(255,255,255,0.15)" stroke-width="0.75"/>
+          <path d="M 50,90 A 40,40 0 0,1 130,90" stroke="rgba(255,255,255,0.15)" stroke-width="0.75"/>
+          <path d="M 70,90 A 20,20 0 0,1 110,90" stroke="rgba(255,255,255,0.15)" stroke-width="0.75"/>
+        </svg>
+      </div>
+
+      <!-- Right: Stats -->
+      <div class="bottom-right">
+        <div class="stats-container">
+          <div class="stat-box">
+            <span class="stat-num">12K+</span>
+            <span class="stat-lbl">Trips Planned</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">12+</span>
+            <span class="stat-lbl">Presets</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">4K+</span>
+            <span class="stat-lbl">Happy Users</span>
+          </div>
+        </div>
+        <p class="bottom-description">
+          คำนวณและหารค่าใช้จ่ายกลุ่มแบบเรียลไทม์ ลดข้อพิพาทเรื่องเงินทอง ให้คุณและแก๊งเพื่อนพร้อมปลดปล่อยความสนุกกับการผจญภัยได้อย่างสบายใจ
+        </p>
+      </div>
+    </section>
   </div>
-
+  <script src="app.js"></script>
 </body>
 </html>

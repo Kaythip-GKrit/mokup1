@@ -1,211 +1,218 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
-html,
-body {
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
     margin: 0;
     padding: 0;
     font-family: 'Prompt', sans-serif;
     height: 100%;
-    color: #fff;
-    overflow: hidden;
+    color: #212529;
+    background-color: #f3f4f5;
 }
 
-#root {
-    height: 100vh;
-}
-
+/* ── Page background ── */
 .home-container {
     position: relative;
-    height: 100vh;
-    background-image: url("https://th.airportels.asia/wp-content/uploads/sites/2/2022/11/%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B9%8B%E0%B8%B2-20-%E0%B9%83%E0%B8%9A%E0%B8%88%E0%B8%B4%E0%B9%8B%E0%B8%A7-3.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #131313;
+    padding: 2rem 1rem;
 }
 
+/* Ambient blobs */
 .overlay {
-    position: absolute;
+    position: relative;
     inset: 0;
-    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
-    backdrop-filter: blur(2px);
-    align-items: center;
+    pointer-events: none;
+    /* overflow: hidden; */
     justify-content: center;
-    display: flex;
+    align-items: center;
+    /* background-color: red; */
 }
 
+.overlay::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    color: white;
+    /* background: radial-gradient(circle, rgba(90, 178, 255, 0.10) 0%, transparent 70%); */
+}
+
+.overlay::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    color: white;
+    /* background: radial-gradient(circle, rgba(160, 222, 255, 0.08) 0%, transparent 70%); */
+}
+
+/* ── Register card — Wanderlog card style ── */
 .content {
     position: relative;
     z-index: 1;
     text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 800px;
-    padding: 3rem;
-    animation: fadeIn 1s ease-out;
-    /* border: 5px solid black; */
+    pointer-events: auto; /* Restore interaction for the form inside overlay */
+    width: 510px;
+    /* max-width: 480px; */
+    padding: 3rem 2.75rem;
+    animation: fadeIn 0.6s ease-out;
+    background: #131313;
+    border: 0.5px solid #e9ecef;
+    border-radius: 32px;
+    box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08);
+    color: white;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Logo badge ── */
 .logo-badge {
     display: inline-block;
-    background: #3784ff;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    /* background: #5AB2FF; */
+    color: #ffffff;
+    padding: 0.35rem 1.2rem;
+    border-radius: 100px;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(55, 132, 255, 0.3);
+    margin-bottom: 1.25rem;
 }
 
+/* ── Heading ── */
 h1 {
-    font-size: 5rem;
-    font-weight: 700;
-    margin: 0 0 1rem 0;
-    line-height: 1;
-    letter-spacing: -2px;
-    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+    font-size: 2.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    color: white;
+    /* background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* border: 2px solid orange; */
-    padding: 10px ;
+    -webkit-text-fill-color: transparent; */
 }
 
+/* ── Subtitle ── */
 .subtitle {
-    font-size: 1.4rem;
+    font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 2.5rem;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
+    margin-bottom: 1.75rem;
+    color: #ffffff;
 }
 
-.accent-text {
-    color: #3784ff;
-    font-weight: 600;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-
-}
-.login-form{
+/* ── Form ── */
+.login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-.login-button-home {
-    background-color: #3784ff;
-    color: white;
-    border: none;
-    width: 200px;
-    height: 56px;
-    display: flex;
-    justify-content: center; /* จัดกลางแนวนอน */
-    align-items: center;     /* จัดกลางแนวตั้ง */
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 20px rgba(55, 132, 255, 0.2);
+    gap: 1.1rem;
+    width: 100%;
 }
 
-.register-button-home {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    width: 200px;
-    height: 56px;
-    display: flex;
-    justify-content: center; /* จัดกลางแนวนอน */
-    align-items: center;     /* จัดกลางแนวตั้ง */
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
-}
-
-.login-button-home:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(55, 132, 255, 0.4);
-    background-color: #4a91ff;
-}
-
-.register-button-home:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: white;
-    transform: translateY(-5px);
-}
-
-
-
-@media (max-width: 768px) {
-    h1 { font-size: 3rem; }
-    .button-container { flex-direction: column; align-items: center; }
-    .features-mini { gap: 1.5rem; }
-}
-/* From Uiverse.io by liyaxu123 username&password */ 
+/* Animated floating-label input */
 .form-control {
-  position: relative;
-  /* margin: 20px 0 40px; */
-  width: 190px;
+    position: relative;
+    width: 100%;
+    max-width: 340px;
 }
 
 .form-control input {
-  background-color: transparent;
-  border: 0;
-  border-bottom: 2px #fff solid;
-  display: block;
-  width: 100%;
-  padding: 15px 0;
-  font-size: 18px;
-  color: #fff;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    padding: 14px 14px 8px 14px;
+    font-size: 1rem;
+    color: #212529;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+    font-family: 'Prompt', sans-serif;
 }
 
 .form-control input:focus,
 .form-control input:valid {
-  outline: 0;
-  border-bottom-color: lightblue;
+    outline: none;
+    border-color: #5AB2FF;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(212, 148, 99, 0.336);
 }
 
 .form-control label {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  pointer-events: none;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    pointer-events: none;
 }
 
 .form-control label span {
-  display: inline-block;
-  font-size: 18px;
-  min-width: 5px;
-  color: #fff;
-  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: inline-block;
+    font-size: 0.95rem;
+    min-width: 5px;
+    color: #ffffff;
+    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.form-control input:focus+label span,
-.form-control input:valid+label span {
-  color: lightblue;
-  transform: translateY(-30px);
+.form-control input:focus + label span,
+.form-control input:valid + label span {
+    color: #ffffff;
+    transform: translateY(-20px) scale(0.82);
 }
-/* From Uiverse.io by Praashoo7 */ 
+
+/* ── Submit button — Wanderlog pill ── */
+.login-button-home {
+    background-color: #d49463;
+    color: #ffffff;
+    border: none;
+    width: 100%;
+    max-width: 340px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 100px;       /* ← Wanderlog pill */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    /* box-shadow: 0 4px 16px rgba(90, 178, 255, 0.25); */
+    letter-spacing: 0.01em;
+    font-family: 'Prompt', sans-serif;
+    margin-top: 0.5rem;
+}
+
+.login-button-home:hover {
+    background-color: #d49463;;
+    transform: translateY(-2px);
+    /* box-shadow: 0 8px 24px rgba(90, 178, 255, 0.35); */
+}
+
+/* ── Footer text ── */
+p {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+    .content { padding: 2rem 1.5rem; border-radius: 24px; }
+    h1 { font-size: 2rem; }
+}

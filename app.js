@@ -1,3 +1,4 @@
+
 // State Management
 const STATE = {
   currentUser: {
@@ -28,6 +29,7 @@ const STATE = {
       startDate: "2026-04-12",
       endDate: "2026-04-15",
       isShared: true,
+      creator: "@kayth",
       members: [
         { username: "@kayth", name: "Kayth" },
         { username: "@john_packer", name: "John Packer" },
@@ -88,6 +90,7 @@ const STATE = {
       startDate: "2026-05-18",
       endDate: "2026-05-20",
       isShared: false,
+      creator: "@kayth",
       members: [
         { username: "@kayth", name: "Kayth" },
         { username: "@bob_spender", name: "Bob Spender" }
@@ -241,6 +244,8 @@ function navigateTo(viewName, tripId = null, viewOnly = false) {
     renderTripDetails();
   } else if (viewName === "create-trip") {
     initCreateTripForm();
+  } else if (viewName === "admin") {
+    renderAdminPanel();
   }
 }
 
@@ -373,7 +378,7 @@ function renderPresets() {
   const addBtnContainer = document.getElementById("add-preset-btn-container");
   if (STATE.presets.length < 3) {
     addBtnContainer.innerHTML = `
-      <button class="btn btn-light btn-sm-pill" style=" width:100%; justify-content:center; font-size: 20px; " onclick="openCreatePresetDialog()">
+      <button class="btn btn-sm-pill" style=" background: #d49463; font-family: "Kanit", sans-serif; width:100%; justify-content:center; font-size: 40px; height: 150px; " onclick="openCreatePresetDialog()">
         เพิ่มพรีเซ็ทใหม่
       </button>
     `;
@@ -554,7 +559,7 @@ function renderCommunity() {
         <p class="dest-card-location">${trip.location}</p>
         <p class="dest-card-dates">${startThai} - ${endThai}</p>
         <div class="dest-card-meta">
-          <span class="dest-card-author">ทริปโดย @kayth</span>
+          <span class="dest-card-author">ทริปโดย @kayth </span>
           
         </div>
         <div class="dest-card-actions">
@@ -619,6 +624,7 @@ function handleStartTripSubmit(event) {
     startDate: start,
     endDate: end,
     isShared: false,
+    creator: STATE.currentUser.username,
     members: [
       { username: STATE.currentUser.username, name: STATE.currentUser.name }
     ],
@@ -682,6 +688,7 @@ function cloneTripAsTemplate(sourceTripId) {
     startDate: source.startDate,
     endDate: source.endDate,
     isShared: false,
+    creator: STATE.currentUser.username,
     members: [
       { username: STATE.currentUser.username, name: STATE.currentUser.name }
     ],
@@ -738,7 +745,7 @@ function renderTripDetails() {
     if (trip.ended) {
       endBtnHtml = `<button class="btn btn-success" disabled>🏁 จบทริปแล้ว</button>`;
     } else {
-      endBtnHtml = `<button class="btn btn-danger" onclick="triggerEndTrip()">🛑 จบทริปการเดินทาง</button>`;
+      endBtnHtml = `<button class="btn" style="background: red; color:white;" onclick="triggerEndTrip()">🛑 จบทริปการเดินทาง</button>`;
     }
   }
 
@@ -783,6 +790,7 @@ function renderTripDetails() {
       <button id="side-tab-shopping" class="sidebar-btn" onclick="setTripSidebarTab('shopping')">สิ่งที่ต้องซื้อเพิ่ม</button>
       <button id="side-tab-budget" class="sidebar-btn" onclick="setTripSidebarTab('budget')">งบประมาณและการใช้จ่าย</button>
       <button id="side-tab-map" class="sidebar-btn" onclick="setTripSidebarTab('map')">ดูแผนที่เดินทาง</button>
+      <button id="side-tab-members" class="sidebar-btn" onclick="setTripSidebarTab('members')">จัดการสมาชิก</button>
       <button class="btn btn-secondary" style="margin-top:2rem;" onclick="navigateTo('home')">กลับหน้าหลัก</button>
     `;
   }
@@ -820,6 +828,9 @@ function renderTabContent() {
     case "end-award":
       renderEndAwardView(trip, container);
       break;
+    case "members":
+      renderMembersTab(trip, container);
+      break;
   }
 }
 
@@ -828,7 +839,7 @@ function renderTabContent() {
 // -------------------------------------------------------------
 function renderDatesTab(trip, container) {
   container.innerHTML = `
-    <h3 style="margin-bottom:1rem;">วันที่การเดินทางของคุณ</h3>
+    <h3 style="margin-bottom:1rem; font-family: "Kanit", sans-serif;">วันที่การเดินทางของคุณ</h3>
     <div id="dates-accordion-container"></div>
   `;
 
@@ -909,7 +920,7 @@ function renderDatesTab(trip, container) {
         <div class="accordion-header-actions" onclick="event.stopPropagation();">
           ${!STATE.viewOnlyCommunity ? `
             <button class="btn btn-secondary btn-sm" onclick="openEditDayDialog('${day.id}', '${day.date}')">✏️ แก้ไขวัน</button>
-            <button class="btn-danger btn btn-sm" onclick="deleteDay('${day.id}')">🗑️ ลบ</button>
+            <button class="btn-danger2 btn btn-sm" onclick="deleteDay('${day.id}')">🗑️ ลบ</button>
           ` : ''}
           <span class="accordion-arrow">▼</span>
         </div>
@@ -1150,7 +1161,7 @@ function renderSinglePackTab(trip, container) {
 
     let itemsHtml = "";
     if (sortedList.length === 0) {
-      itemsHtml = `<div style="text-align:center; padding:1.5rem; color:var(--text-dim); font-size:0.85rem;">ยังไม่มีรายการสัมภาระจัดเตรียม</div>`;
+      itemsHtml = `<div style="text-align:center; padding:1.5rem; font-size:1rem; font-family: "Kanit", Outfit; color: white">ยังไม่มีรายการสัมภาระจัดเตรียม</div>`;
     } else {
       sortedList.forEach(item => {
         const isChecked = item.checked ? "checked" : "";
@@ -1164,7 +1175,7 @@ function renderSinglePackTab(trip, container) {
                 <span class="checkbox-checkmark"></span>
               </label>
               <span class="packing-item-text">${item.text}</span>
-              ${item.alert ?  `<span style="font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
+              ${item.alert ?  `<span style=" font-family: "Kanit", Outfit;font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
             </div>
             <div class="packing-item-right">
               <button class="bell-btn ${alertBellActive}" title="ตั้งเวลาแจ้งเตือน" onclick="openAlertSettingsDialog('${member.username}', '${item.id}')">🔔</button>
@@ -1178,7 +1189,7 @@ function renderSinglePackTab(trip, container) {
     accBox.innerHTML = `
       <div class="accordion-header" style="background:rgba(255,255,255,0.02)">
         <span class="accordion-title">👤 @${member.username.replace("@", "")} (${member.name}) ${isCurrentUser ? '(คุณ)' : ''}</span>
-        <span style="font-size:0.8rem; color:var(--text-muted);">จัดแล้ว ${list.filter(i => i.checked).length}/${list.length} ชิ้น</span>
+        <span style="font-size:0.8rem; color:var(--text-muted); font-family: "Kanit", Outfit;">จัดแล้ว ${list.filter(i => i.checked).length}/${list.length} ชิ้น</span>
       </div>
       <div class="accordion-body" style="display:block;">
         <div class="packing-controls">
@@ -1203,7 +1214,7 @@ function renderSinglePackTab(trip, container) {
         </div>
         
         <div style="display:flex; gap:0.5rem;">
-          <input type="text" id="new-pack-item-input-${member.username}" class="form-input" placeholder="พิมพ์สัมภาระที่ต้องการจัด..." style="font-size:0.85rem; padding:0.5rem 0.8rem;">
+          <input type="text" id="new-pack-item-input-${member.username}" class="form-input" placeholder="พิมพ์สัมภาระที่ต้องการจัด..." style="padding:0.5rem 0.8rem;">
           <button class="btn btn-primary btn-sm" onclick="addPackItem('${member.username}')">➕ เพิ่มสัมภาระ</button>
         </div>
       </div>
@@ -1320,7 +1331,7 @@ function openDefaultItemsDialog(targetUsername) {
   body.innerHTML = `
     <h4 style="margin-bottom:0.8rem; font-family:var(--font-logo);">รายการสำเร็จรูปที่แนะนำ</h4>
     
-    <div class="accordion-box active" style="margin-bottom:0.5rem;">
+    <div class="accordion-box active" style="margin-bottom:0.5rem; border:none; filter:none;">
       <div class="accordion-header" style="padding:0.6rem 0.8rem; font-size:0.85rem;" onclick="event.stopPropagation(); toggleCheckboxCategory('bath')">
         <span>🚿 เกี่ยวกับการอาบน้ำ</span>
         <input type="checkbox" id="cat-select-bath" onchange="toggleCategorySelectAll('bath', this.checked)">
@@ -1332,7 +1343,7 @@ function openDefaultItemsDialog(targetUsername) {
       </div>
     </div>
 
-    <div class="accordion-box active" style="margin-bottom:0.5rem;">
+    <div class="accordion-box active" style="margin-bottom:0.5rem;border:none;">
       <div class="accordion-header" style="padding:0.6rem 0.8rem; font-size:0.85rem;">
         <span>💍 เครื่องประดับ</span>
         <input type="checkbox" id="cat-select-acc" onchange="toggleCategorySelectAll('acc', this.checked)">
@@ -1344,7 +1355,7 @@ function openDefaultItemsDialog(targetUsername) {
       </div>
     </div>
 
-    <div class="accordion-box active" style="margin-bottom:0.5rem;">
+    <div class="accordion-box active" style="margin-bottom:0.5rem; border:none;">
       <div class="accordion-header" style="padding:0.6rem 0.8rem; font-size:0.85rem;">
         <span>✈️ สิ่งที่จำเป็นต่อการเดินทาง</span>
         <input type="checkbox" id="cat-select-ess" onchange="toggleCategorySelectAll('ess', this.checked)">
@@ -1356,7 +1367,7 @@ function openDefaultItemsDialog(targetUsername) {
       </div>
     </div>
 
-    <div class="accordion-box active" style="margin-bottom:0.5rem;">
+    <div class="accordion-box active" style="margin-bottom:0.5rem;border:none;">
       <div class="accordion-header" style="padding:0.6rem 0.8rem; font-size:0.85rem;">
         <span>👶 เกี่ยวกับเด็กเล็ก</span>
         <input type="checkbox" id="cat-select-kids" onchange="toggleCategorySelectAll('kids', this.checked)">
@@ -1368,7 +1379,7 @@ function openDefaultItemsDialog(targetUsername) {
       </div>
     </div>
 
-    <div class="accordion-box active" style="margin-bottom:0.5rem;">
+    <div class="accordion-box active" style="margin-bottom:0.5rem;border:none;">
       <div class="accordion-header" style="padding:0.6rem 0.8rem; font-size:0.85rem;">
         <span>🐱 สัตว์เลี้ยง</span>
         <input type="checkbox" id="cat-select-pets" onchange="toggleCategorySelectAll('pets', this.checked)">
@@ -1497,7 +1508,7 @@ function renderSharedPackTab(trip, container) {
   const sorted = sortItemsList(trip.sharedPackingList, trip.sortShared);
 
   if (sorted.length === 0) {
-    listContainer.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--text-dim); font-size:0.85rem;">ยังไม่มีของใช้ร่วมกันในขณะนี้</div>`;
+    listContainer.innerHTML = `<div style="text-align:center; padding:1.5rem; color:white; font-size:0.85rem;">ยังไม่มีของใช้ร่วมกันในขณะนี้</div>`;
     return;
   }
 
@@ -1516,9 +1527,9 @@ function renderSharedPackTab(trip, container) {
             <span class="checkbox-checkmark"></span>
           </label>
           <span class="packing-item-text">${item.text}</span>
-          ${item.alert ? `<span style="font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
+          ${item.alert ? `<span style="font-family: "Kanit", Outfit; font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
         </div>
-        <div style="font-size:0.75rem; color:var(--text-dim); padding-left:1.8rem; display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center;">
+        <div style="font-size:0.75rem; padding-left:1.8rem; display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center;">
           <span>📝 ${creatorText}</span>
           <span>👤 ผู้รับผิดชอบ: <strong>${item.responsible || 'ยังไม่มี'}</strong></span>
           <select class="sort-select" style="font-size:0.7rem; padding:0.1rem 0.3rem;" onchange="assignSharedItemResponsible('${item.id}', this.value)">
@@ -1658,30 +1669,30 @@ function deleteSharedPackItem(itemId) {
 // -------------------------------------------------------------
 function renderShoppingTab(trip, container) {
   container.innerHTML = `
-    <div style="margin-bottom:1.5rem;">
-      <h3 style="margin-bottom:0.2rem;">สิ่งที่จะซื้อเพิ่ม (Shopping & Bills)</h3>
+    <div style="margin-bottom:1.5rem; font-family: "Kanit", Outfit;">
+      <h3 style="margin-bottom:0.2rem; font-size: 1.5rem ">สิ่งที่จะซื้อเพิ่ม (Shopping & Bills)</h3>
       <p style="color:var(--text-muted); font-size:0.9rem;">วางแผนและหารค่าใช้จ่ายสำหรับของที่จำยอมต้องซื้อร่วมกัน</p>
     </div>
     
     <div id="shopping-accordion" class="accordion-box active">
       <div class="accordion-header">
-        <span>🛒 รายการสิ่งที่ซื้อเพิ่ม</span>
-        <span>ยอดใช้จ่ายรวม: ${calculateTripExpensesSum(trip).toLocaleString()} บาท</span>
+        <span  style="font-family: "Kanit", Outfit; font-size: 1.3rem; font-weight: 500; color: #d49463;>🛒 รายการสิ่งที่ซื้อเพิ่ม</span>
+        <span style="font-family: "Kanit", Outfit; font-size: 1.3rem; font-weight: 500; color: #d49463;">ยอดใช้จ่ายรวม: ${calculateTripExpensesSum(trip).toLocaleString()} บาท</span>
       </div>
       <div class="accordion-body" style="display:block;">
         <div id="shopping-items-list-box" class="packing-list" style="margin-bottom:1.5rem;">
           <!-- List goes here -->
         </div>
         
-        <h4 style="margin-bottom:0.8rem; font-family:var(--font-logo);">เพิ่มของที่จะซื้อเพิ่ม</h4>
+        <h4 style="background: #d49463; color: black; padding:1rem; border-radius:1rem; font-size:20px; margin-bottom:1.2rem; font-family: "Kanit", Outfit; ">เพิ่มของที่จะซื้อเพิ่ม</h4>
         
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-bottom:0.8rem;">
           <div>
-            <label class="form-label" style="font-size:0.75rem;">ชื่อรายการสิ่งของ</label>
+            <label class="form-label" style="font-size:1rem; font-weight:400;">ชื่อรายการสิ่งของ</label>
             <input type="text" id="shop-new-text" class="form-input" placeholder="เช่น ค่าเครื่องดื่มเบียร์ปาร์ตี้">
           </div>
           <div>
-            <label class="form-label" style="font-size:0.75rem;">ประเภทการซื้อ</label>
+            <label class="form-label" style="font-size:1rem; font-weight:400;">ประเภทการซื้อ</label>
             <select id="shop-new-category" class="form-input">
               <option value="food">🍔 อาหาร</option>
               <option value="fuel">⛽ น้ำมัน</option>
@@ -1726,7 +1737,7 @@ function renderShoppingItemsList(trip) {
   listContainer.innerHTML = "";
 
   if (trip.shoppingList.length === 0) {
-    listContainer.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--text-dim); font-size:0.85rem;">ยังไม่มีการบันทึกรายการใช้จ่าย</div>`;
+    listContainer.innerHTML = `<div style="text-align:center; padding:1.5rem; color: white; font-size:0.85rem;">ยังไม่มีการบันทึกรายการใช้จ่าย</div>`;
     return;
   }
 
@@ -1752,21 +1763,21 @@ function renderShoppingItemsList(trip) {
 
     div.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight:600; font-size:1rem;">${catIcons[item.category] || "🛍️"} ${item.text}</span>
-        <span style="font-weight:700; color:var(--accent-purple); font-size:1rem;">${total.toLocaleString()}฿</span>
+        <span style="font-weight:600; font-size:1.4rem;">${catIcons[item.category] || "🛍️"} ${item.text}</span>
+        <span style="font-weight:700; color:#d49463; font-size:2rem;">${total.toLocaleString()}฿</span>
       </div>
       
-      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; color:var(--text-muted);">
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:1.2rem; color:var(--text-muted);">
         <span>จำนวน: <strong>${item.qty} ชิ้น</strong> x ราคา ${item.price}฿</span>
         <span>จ่ายโดย: <strong>${item.payee}</strong></span>
       </div>
       
-      <div style="font-size:0.75rem; color:var(--text-dim); border-top:1px solid rgba(255,255,255,0.05); padding-top:0.4rem; display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-size:1rem; color:white; border-top:1px solid rgba(255,255,255,0.05); padding-top:0.4rem; display:flex; justify-content:space-between; align-items:center;">
         <span>📝 บันทึกโดย ${item.creator} | Split: ${splitText}</span>
         <div style="display:flex; gap:0.3rem;">
-          <button class="btn btn-secondary btn-sm" style="padding:0.1rem 0.4rem; font-size:0.75rem;" onclick="incrementShoppingQty('${item.id}')">ซื้อเพิ่ม +1</button>
-          <button class="btn btn-secondary btn-sm" style="padding:0.1rem 0.4rem; font-size:0.75rem;" onclick="viewExpenseDetailModal('${item.id}')">รายละเอียด</button>
-          <button class="btn-danger btn btn-sm" style="padding:0.1rem 0.4rem; font-size:0.75rem;" onclick="deleteExpenseItem('${item.id}')">ลบการซื้อ</button>
+          <button class="btn btn-secondary btn-sm" style="padding:0.6rem 0.4rem; font-size:0.75rem;" onclick="incrementShoppingQty('${item.id}')">ซื้อเพิ่ม +1</button>
+          <button class="btn btn-secondary btn-sm" style="padding:0.6rem 0.4rem; font-size:0.75rem;" onclick="viewExpenseDetailModal('${item.id}')">รายละเอียด</button>
+          <button class="btn-danger3 btn btn-sm" style="padding:0.6rem 0.4rem; font-size:0.75rem;" onclick="deleteExpenseItem('${item.id}')">ลบการซื้อ</button>
         </div>
       </div>
     `;
@@ -1804,7 +1815,7 @@ function triggerSetExpensePayer() {
   const body = document.getElementById("confirm-modal-body");
   body.innerHTML = `
     <h4 style="margin-bottom:0.8rem; font-family:var(--font-logo);">เพิ่มการจ่ายเงิน</h4>
-    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">รายการ: ${text} | รวม: ${(qty * price).toLocaleString()}฿</p>
+    <p style="font-size:1.2rem; color:#d49463; margin-bottom:1rem;">รายการ: ${text} | รวม: ${(qty * price).toLocaleString()}฿</p>
     
     <div class="form-group">
       <label class="form-label">จ่ายโดย (Paid by)</label>
@@ -1922,8 +1933,8 @@ function viewExpenseDetailModal(itemId) {
   }
 
   body.innerHTML = `
-    <h3 style="margin-bottom:0.8rem; font-family:var(--font-logo);">รายละเอียดการใช้จ่าย</h3>
-    <table style="width:100%; font-size:0.85rem;">
+    <h3 style="margin-bottom:0.8rem; font-family: "Kanit", Outfit; color:white;">รายละเอียดการใช้จ่าย</h3>
+    <table style="width:100%; font-size:0.85rem;color:white;">
       <tr><td>รายการ</td><td><strong>${item.text}</strong></td></tr>
       <tr><td>ราคาชิ้นละ</td><td>${item.price.toLocaleString()}฿</td></tr>
       <tr><td>จำนวน</td><td>${item.qty} ชิ้น</td></tr>
@@ -1952,9 +1963,9 @@ function renderBudgetTab(trip, container) {
   const barClass = currentTotal > budgetLimit ? "over-budget" : "";
 
   container.innerHTML = `
-    <div style="margin-bottom:1.5rem;">
+    <div style="margin-bottom:1.5rem;font-size:1.5rem">
       <h3>จัดการงบประมาณกลุ่ม (Budget Management)</h3>
-      <p style="color:var(--text-muted); font-size:0.9rem;">ติดตามค่าใช้จ่าย สัดส่วนงบประมาณของสมาชิก และสรุปยอดที่ต้องเคลียร์เงิน</p>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-top: 10px;">ติดตามค่าใช้จ่าย สัดส่วนงบประมาณของสมาชิก และสรุปยอดที่ต้องเคลียร์เงิน</p>
     </div>
     
     <!-- Budget Progress Bar -->
@@ -1972,7 +1983,7 @@ function renderBudgetTab(trip, container) {
     </div>
     
     <!-- individual member stats table -->
-    <h4 style="margin-bottom:0.8rem; font-family:var(--font-logo);">รายละเอียดตารางค่าใช้จ่ายของสมาชิก</h4>
+    <h4 style="margin-bottom:0.8rem; font-family: "Kanit", Outfit; color:white;">รายละเอียดตารางค่าใช้จ่ายของสมาชิก</h4>
     <div class="table-responsive">
       <table>
         <thead>
@@ -1981,7 +1992,7 @@ function renderBudgetTab(trip, container) {
             <th>ใช้จ่ายทั้งหมด</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style="color:white;">
           ${trip.members.map(member => {
     const owes = calculations.membersOwes[member.username] || 0;
     return `
@@ -2037,12 +2048,12 @@ function renderBudgetTab(trip, container) {
                   <td>${details.bank}</td>
                   <td>${details.account}</td>
                   <td>
-                    ${details.qr ? `<img src="${details.qr}" class="qr-code-img" alt="QR PromptPay">` : '<span style="color:var(--text-dim);">ยังไม่ระบุคิวอาร์โค้ด</span>'}
+                    ${details.qr ? `<img src="${details.qr}" class="qr-code-img" alt="QR PromptPay">` : '<span style="color: white;">ยังไม่ระบุคิวอาร์โค้ด</span>'}
                   </td>
                   <td>
                     ${isCurrentUser ? `
                       <button class="btn btn-secondary btn-sm" onclick="openEditBankDetailsDialog()">✏️ แก้ไขข้อมูล</button>
-                    ` : '<span style="color:var(--text-dim); font-size:0.75rem;">แก้ไขได้เฉพาะตนเอง</span>'}
+                    ` : '<span style="color:white; font-size:0.87rem;">แก้ไขได้เฉพาะตนเอง</span>'}
                   </td>
                 </tr>
               `;
@@ -2280,7 +2291,7 @@ function simulatePaymentToast(debtor, creditor, amount) {
 function renderMapTab(trip, container) {
   container.innerHTML = `
     <div style="margin-bottom:1.5rem;">
-      <h3>ดูแผนที่และปักหมุดเส้นทาง (Route Map View)</h3>
+      <h3 style=" font-family: "Kanit", Outfit; font-size: 1.5rem;">ดูแผนที่และปักหมุดเส้นทาง (Route Map View)</h3>
       <p style="color:var(--text-muted); font-size:0.9rem;">ลากแผนที่เพื่อจัดอันดับการนำทริปท่องเที่ยวแบบระบุพิกัด 1 -> 2 -> 3 -> 4</p>
     </div>
     
@@ -2438,7 +2449,7 @@ function openAwardPopup(trip) {
     <div style="text-align:center; padding:1rem;">
       <span style="font-size:4rem; display:block; margin-bottom:1rem;">🏆</span>
       <h3 style="font-family:var(--font-logo); margin-bottom:0.5rem;">รางวัลเกียรติยศประจำทริป</h3>
-      <p style="font-size:1.15rem; font-weight:700; color:var(--accent-pink); margin-bottom:0.5rem;">🥇 SSD (Solo Spending)</p>
+      <p style="font-size:1.15rem; font-weight:700; color:white; margin-bottom:0.5rem;">🥇 SSD (Solo Spending)</p>
       <p style="font-size:0.95rem; font-weight:600;">${winnerText}</p>
       <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.4rem;">${amountStr}</p>
       <p style="color:var(--text-dim); font-size:0.8rem; margin-top:1.2rem;">รางวัลนี้มอบให้กับสมาชิกที่ใช้เงินสุทธิรวมสูงที่สุดในโครงสร้างโครงการ!</p>
@@ -2453,11 +2464,11 @@ function renderEndAwardView(trip, container) {
   container.innerHTML = `
     <div style="text-align:center; padding:3rem 1.5rem;">
       <span style="font-size:5rem; display:block; margin-bottom:1rem;">🎖️</span>
-      <h3 style="margin-bottom:0.5rem; font-family:var(--font-logo);">ผลสรุปรางวัลเกียรติยศ</h3>
+      <h3 style="margin-bottom:0.5rem; font-family: "Kanit", Outfit;">ผลสรุปรางวัลเกียรติยศ</h3>
       
       <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:16px; padding:2rem; max-width:450px; margin:2rem auto;">
         <span style="font-size:2.5rem; display:block; margin-bottom:0.5rem;">🏆</span>
-        <h4 style="color:var(--accent-pink); font-family:var(--font-logo); font-size:1.3rem;">SSD (Solo Spending)</h4>
+        <h4 style="color:white font-family: "Kanit", Outfit; font-size:1.3rem;">SSD (Solo Spending)</h4>
         <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.5rem;">สมาชิกที่รับภาระค่าใช้จ่ายรวมสูงสุดในทริปนี้</p>
         
         ${awardInfo ? `
@@ -2706,33 +2717,140 @@ function shareTripToCommunity() {
   }
 }
 
+function renderMembersTab(trip, container) {
+  const isCreator = trip.creator === STATE.currentUser.username;
+
+  let membersListHtml = "";
+  trip.members.forEach(member => {
+    const isMemberCreator = member.username === trip.creator;
+    const isSelf = member.username === STATE.currentUser.username;
+    
+    let actionButton = "";
+    if (isMemberCreator) {
+      actionButton = `<span class="badge-pill badge-success" style="background:#1e3a8a; border: 1px solid var(--border-color); padding: 0.25rem 0.6rem;">👑 ผู้สร้างทริป</span>`;
+    } else if (isCreator) {
+      actionButton = `<button class="btn btn-danger10 btn-sm" onclick="kickMember('${member.username}')">เตะออกจากทริป</button>`;
+    } else {
+      actionButton = `<span class="badge-pill badge-secondary" style="background:rgba(255,255,255,0.05); color:var(--text-muted); padding: 0.25rem 0.6rem;">สมาชิก</span>`;
+    }
+
+    membersListHtml += `
+      <div class="list-box-item" style="padding:1rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color);">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div style="width:40px; height:40px; border-radius:50%; background: #2c5ead; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:bold; color:white; border:1px solid var(--border-color);">
+            ${member.name.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div style="font-weight:600; font-size:1rem; color:white;">${member.name} ${isSelf ? '(คุณ)' : ''}</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">${member.username}</div>
+          </div>
+        </div>
+        <div>
+          ${actionButton}
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <div style="margin-bottom:1.5rem;">
+      <h3 style="margin-bottom:0.2rem;">จัดการสมาชิกในทริป</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">ดูรายชื่อสมาชิก และจัดการสิทธิ์ผู้เข้าร่วมทริปเดินทาง</p>
+    </div>
+    
+    <div class="list-box" style="margin-bottom:1.5rem; max-height:none; background:rgba(0,0,0,0.2); border:1px solid var(--border-color); border-radius: var(--radius-md);">
+      ${membersListHtml}
+    </div>
+    
+    ${!STATE.viewOnlyCommunity ? `
+      <div style="text-align: right;">
+        <button class="btn btn-primary" onclick="triggerInviteMember()">➕ เพิ่มสมาชิกใหม่</button>
+      </div>
+    ` : ''}
+  `;
+}
+
+function kickMember(memberUsername) {
+  const trip = STATE.trips.find(t => t.id === STATE.activeTripId);
+  if (!trip) return;
+
+  // Ensure current user is the creator
+  const isCreator = trip.creator === STATE.currentUser.username;
+  if (!isCreator) {
+    showToast("เฉพาะผู้สร้างทริปเท่านั้นที่สามารถเตะสมาชิกออกได้", "danger");
+    return;
+  }
+
+  const memberToKick = trip.members.find(m => m.username === memberUsername);
+  if (!memberToKick) return;
+
+  const body = document.getElementById("confirm-modal-body");
+  body.innerHTML = `
+    <h3 style="color:var(--danger); margin-bottom:0.8rem; font-family:var(--font-logo);">เตะสมาชิกออกจากทริป</h3>
+    <p>คุณแน่ใจหรือไม่ที่จะเตะ <strong>${memberToKick.name} (${memberToKick.username})</strong> ออกจากทริปนี้?</p>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">
+      * ข้อมูลสัมภาระเดี่ยว บัญชีธนาคาร และหนี้สินของสมาชิกท่านนี้จะถูกนำออกหรือปรับปรุงในทริปนี้
+    </p>
+  `;
+
+  Dialog.open("confirm-modal", () => {
+    // Remove member
+    trip.members = trip.members.filter(m => m.username !== memberUsername);
+
+    // Clean packing list
+    if (trip.packingList[memberUsername]) {
+      delete trip.packingList[memberUsername];
+    }
+
+    // Clean bank details
+    trip.bankDetails = trip.bankDetails.filter(b => b.username !== memberUsername);
+
+    // Clean shared packing list responsible person
+    trip.sharedPackingList.forEach(item => {
+      if (item.responsible === memberUsername) {
+        item.responsible = null;
+      }
+    });
+
+    // Clean shopping list splits
+    trip.shoppingList.forEach(item => {
+      if (item.splitMembers && item.splitMembers.includes(memberUsername)) {
+        item.splitMembers = item.splitMembers.filter(uname => uname !== memberUsername);
+      }
+      if (item.splitType === 'select' && (!item.splitMembers || item.splitMembers.length === 0)) {
+        item.splitType = 'none';
+      }
+    });
+
+    // Re-render trip details, which resets the UI tabs/header/sidebar
+    renderTripDetails();
+    showToast(`เตะ ${memberToKick.name} ออกจากทริปท่องเที่ยวแล้ว`, "success");
+  });
+}
+
 // -------------------------------------------------------------
 // ADMIN ACTIONS & COMPONENT RENDERS
 // -------------------------------------------------------------
 function toggleAdminPanel() {
-  STATE.isAdmin = !STATE.isAdmin;
-  const area = document.getElementById("admin-dashboard-container");
-
-  if (STATE.isAdmin) {
-    area.style.display = "block";
-    showToast("สลับเข้าโหมด Admin เรียบร้อย", "success");
-    renderAdminPanel();
-  } else {
-    area.style.display = "none";
+  if (STATE.currentView === "admin") {
+    navigateTo("home");
     showToast("ออกจากโหมด Admin เรียบร้อย", "info");
+  } else {
+    navigateTo("admin");
+    showToast("สลับเข้าโหมด Admin เรียบร้อย", "success");
   }
 }
 
 function renderAdminPanel() {
-  const container = document.getElementById("admin-dashboard-container");
+  const container = document.getElementById("admin-view");
   container.innerHTML = `
     <div class="admin-card">
-      <h3 style="font-family:var(--font-logo); border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; color:var(--accent-pink);">🛡️ ผู้ดูแลระบบ (Admin Control Board)</h3>
+      <h3 style="font-family: "Kanit", sans-serif; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem;">ผู้ดูแลระบบ (Admin Control Board)</h3>
       
       <div class="admin-grid">
         <!-- Default Packing category settings -->
         <div>
-          <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">หมวดหมู่สัมภาระเริ่มต้น</h4>
+          <h4 style="font-size:1.5rem; margin-bottom:1rem; ">หมวดหมู่สัมภาระเริ่มต้น</h4>
           <div class="list-box" id="admin-cat-list" style="margin-bottom:0.5rem;">
             ${STATE.admin.defaultCategories.map((c, i) => `
               <div class="list-box-item">
@@ -2743,36 +2861,19 @@ function renderAdminPanel() {
           </div>
           <div class="admin-form">
             <input type="text" id="admin-new-cat" class="form-input" style=".form-input::placeholder{color:black;}" style="font-size:0.75rem;" placeholder="หมวดใหม่...">
-            <button class="btn" onclick="adminAddCategory()">➕</button>
+            <button class="btn" style="background: #d49463;" onclick="adminAddCategory()">+</button>
           </div>
         </div>
         
-        <!-- Badges list setup -->
-        <div>
-          <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">🏆 เหรียญรางวัลระบบ</h4>
-          <div class="list-box" id="admin-badges-list" style="margin-bottom:0.5rem;">
-            ${STATE.admin.badges.map((b, i) => `
-              <div class="list-box-item">
-                <span title="${b.desc}">${b.code}</span>
-                <button class="btn-danger btn btn-sm" style="padding:0 0.3rem;" onclick="adminDeleteBadge(${i})">🗑️</button>
-              </div>
-            `).join("")}
-          </div>
-          <div class="admin-form">
-            <input type="text" id="admin-new-badge-code" class="form-input" style="font-size:0.75rem; width:100px;" placeholder="ชื่อป้าย">
-            
-            <button class="btn" onclick="adminAddBadge()">➕</button>
-          </div>
-        </div>
         
         <!-- User list suspensions -->
         <div>
-          <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">ผู้ใช้งานในระบบ</h4>
+          <h4 style="font-size:1.5rem; margin-bottom:1rem;margin-top:30px">ผู้ใช้งานในระบบ</h4>
           <div class="list-box" style="margin-bottom:0.5rem;">
             ${STATE.admin.users.map(u => `
               <div class="list-box-item">
                 <span style="${u.status === 'suspended' ? 'text-decoration:line-through; color:var(--danger)' : ''}">${u.username}</span>
-                <button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'} btn-sm" style="padding:0 0.3rem; font-size:0.7rem;" onclick="adminToggleUserStatus('${u.username}')">
+                <button class="btn ${u.status === 'active' ? 'btn-danger' : 'btn-success'} btn-sm" style="padding:0 0.3rem; font-size:0.7rem; " onclick="adminToggleUserStatus('${u.username}')">
                   ${u.status === 'active' ? 'บล็อก' : 'ปลดบล็อก'}
                 </button>
               </div>
@@ -2782,12 +2883,12 @@ function renderAdminPanel() {
         
         <!-- Shared projects & reports -->
         <div>
-          <h4 style="font-size:0.9rem; margin-bottom:0.5rem;">🚩 แชทที่ถูกรายงานจากสมาชิก</h4>
+          <h4 style="font-size:1.5rem; margin-bottom:0.5rem;">แชทที่ถูกรายงานจากสมาชิก</h4>
           <div class="list-box">
             ${STATE.admin.reports.map(r => `
               <div class="list-box-item" style="flex-direction:column; align-items:flex-start; font-size:0.75rem;">
-                <span>ผู้ถูกแจ้ง: <strong>${r.reportedUser}</strong></span>
-                <span style="color:var(--text-muted)">ข้อความ: "${r.msg}"</span>
+                <span style="font-family: 'Kanit', sans-serif !important; font-size: 1.2rem !important;">ผู้ถูกแจ้ง: <strong>${r.reportedUser}</strong></span>
+                <span style="color:white;font-family: "Kanit", sans-serif;">ข้อความ: "${r.msg}"</span>
                 <span style="font-weight:600; color:var(--warning)">สถานะ: ${r.status}</span>
               </div>
             `).join("")}
@@ -2795,8 +2896,8 @@ function renderAdminPanel() {
         </div>
       </div>
       
-      <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:1rem;">
-        <span style="font-size:0.85rem; color:var(--text-muted);">📈 สถิติทริปบนคอมมูนิตี้ทั้งหมด: <strong>${STATE.trips.filter(t => t.isShared).length}</strong> โครงการ</span>
+      <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center; padding-top:1rem;">
+        <span style="font-size:1rem; color:white;">📈 สถิติทริปบนคอมมูนิตี้ทั้งหมด: <strong>${STATE.trips.filter(t => t.isShared).length}</strong> โครงการ</span>
         <button class="btn btn-secondary btn-sm" onclick="toggleAdminPanel()">❌ ปิดแผงแอดมิน</button>
       </div>
     </div>

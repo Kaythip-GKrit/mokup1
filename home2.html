@@ -7,31 +7,32 @@
   <title>whopackwhopay - เว็บไซต์เตรียมสัมภาระและหารค่าทริปสุดล้ำ</title>
   <meta name="description"
     content="วางแผนการท่องเที่ยว จัดการสัมภาระเดี่ยวและกลุ่ม พร้อมระบบหารค่าใช้จ่ายและคำนวณงบประมาณกลุ่มอย่างมีประสิทธิภาพ">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="uiverseHome.css">
+  <link rel="stylesheet" href="style2.css">
+  <!-- <link rel="stylesheet" href="uiverseHome.css"> -->
 </head>
 
 <body>
-  <a href="home2.html">go to home2</a>
   <div id="app">
 
     <!-- Top Navigation Bar -->
     <nav class="navbar" id="app-navbar">
       <div class="nav-left">
-        <div class="logo" id="logo-click-nav">whopackwhopay</div>
+        <div class="logo" id="logo-click-nav">WHOPACKWHOPAY</div>
+        
+      </div>
+      <div class="nav-center">
         <div class="nav-links">
-          <a href="#" class="nav-link" onclick="navigateTo('home')">หน้าหลัก</a>
+          <a href="#" class="nav-link" onclick="navigateTo('home')" style="color:#d49463 ;">Home</a>
           <a href="#" class="nav-link"
-            onclick="showToast('ติดต่อทีมงาน: support@whopackwhopay.com', 'info')">ติดต่อเรา</a>
+            onclick="showToast('ติดต่อทีมงาน: support@whopackwhopay.com', 'info')">Contact</a>
           <a href="#" class="nav-link"
-            onclick="showToast('whopackwhopay ช่วยให้การเตรียมกระเป๋าและหารค่าทริปเป็นเรื่องง่าย!', 'info')">เกี่ยวกับ</a>
+            onclick="showToast('whopackwhopay ช่วยให้การเตรียมกระเป๋าและหารค่าทริปเป็นเรื่องง่าย!', 'info')">About</a>
         </div>
       </div>
-
       <div class="nav-right">
         <!-- Admin Panel Toggle (To facilitate testing all features including admin requirements) -->
         <button class="btn btn-secondary btn-sm" style="color: #ffffff;
-         background: #1a3050;
+         background:  #131313;
          height: 35px;
          " onclick="toggleAdminPanel()">โหมด Admin</button>
 
@@ -84,8 +85,8 @@
         </div>
       </div>
 
-      <button class="btn btn-danger" style="width:100%;" onclick="handleLogout()"><a
-          href="index.html">ออกจากระบบ</a></button>
+      <button class="btn btn-danger9" style="width:100%;" onclick="handleLogout()"><a
+          href="login.html">ออกจากระบบ</a></button>
     </div>
 
     <!-- Toast notifications panel container -->
@@ -100,49 +101,30 @@
       <!-- 1. HOME VIEW -->
       <div id="home-view" class="view-section active">
 
-        <!-- Hero Section -->
-        <div class="hero-section">
-          <div class="hero-overlay"></div>
-          <div class="hero-content">
-            <h1 class="hero-title">whopackwhopay</h1>
-            <p class="hero-subtitle">เตรียมสัมภาระ รับการแจ้งเตือน สรุปผลการคำนวณ</p>
-            <div class="hero-actions-container">
-              <button class="expore-button"
-                onclick="scrollToSection('community-landing-section')">สำรวจการท่องเที่ยว</button>
-            </div>
-          </div>
-        </div>
 
         <!-- Features / Why Choose Us Section -->
         <div class="features-section">
           <div class="features-left">
-            <h2 class="features-title">เตรียมสัมภาระ วางแผน แล้วไป <span style="color: red;">ผลาญเงิน</span>ด้วยกันกับเพื่อนของคุณ whopackwhopay</h2>
-            <p class="features-desc">เราแก้ไขปัญหาการจัดของเดินทางและการแชร์ยอดใช้จ่ายกลุ่มที่ซับซ้อนให้เป็นเรื่องง่าย
-              สะดวก รวดเร็ว </p>
-
-            <!-- <div class="features-stats">
-              <div class="stat-item">
-                <span class="stat-number">12k+</span>
-                <span class="stat-text">ผู้ใช้งานที่มีความสุข</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">1,500+</span>
-                <span class="stat-text">ทริปสำเร็จราบรื่น</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">99%</span>
-                <span class="stat-text">ลดข้อโต้แย้งในกลุ่ม</span>
-              </div>
-            </div> -->
-          </div>
-
-          <div class="features-right">
-            <!-- From Uiverse.io by Ali-Tahmazi99 -->
-            <button class="add-project" onclick="navigateTo('create-trip')">
+            <h2 class="features-title">PACK <br> WITH <br> WHOPACK <br>WHOPAY</h2>
+            <hr style="opacity: 0.5;">
+            <div class="features-left-section">
+                <button class="add-project" onclick="navigateTo('create-trip')">
               <span>
                 <h2>เริ่มทริปการเดินทางใหม่</h2>
               </span>
             </button>
+                <div class="features-left-desc">
+                    <h3>ให้เราช่วยจัดสัมภาระและคำนวณค่าใช้จ่ายกับเพื่อนของคุณ</h3>
+                </div>
+            </div>
+            
+          </div>
+
+          <div class="features-right">
+            <!-- From Uiverse.io by Ali-Tahmazi99 -->
+            <div class="image-wrapper">
+                <img src="travel_hero.png" alt="Travel Packing Setup" class="hero-image">
+            </div>
           </div>
         </div>
 
@@ -155,6 +137,7 @@
             <!-- Active trips render here dynamically -->
           </div>
         </div>
+        <hr style="opacity: 0.4;">
 
         <!-- Top Destinations (Community) Section -->
         <div class="community-landing-container" id="community-landing-section">

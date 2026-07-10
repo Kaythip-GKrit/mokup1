@@ -2435,7 +2435,9 @@ function triggerEndTrip() {
 
     // Switch to date list rendering and open results modal
     navigateTo("trip-details", trip.id, false);
-    openAwardPopup(trip);
+    setTimeout(() => {
+      openAwardPopup(trip);
+    },300)
   });
 }
 

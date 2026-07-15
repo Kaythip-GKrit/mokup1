@@ -157,6 +157,7 @@ p{
   top: 0;
   z-index: 100;
   font-family: 'Outfit', sans-serif;
+  border-bottom: 2px solid white;
 }
 
 .nav-left {

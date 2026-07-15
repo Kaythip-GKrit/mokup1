@@ -272,6 +272,12 @@
       <div class="modal-body" id="confirm-modal-body">
         <p>คุณต้องการดำเนินการต่อหรือไม่?</p>
       </div>
+      <div id="map-search-result-pane" style="display:none; min-height: 50px; margin-bottom: 1rem; padding: 0.5rem; border: 1px dashed #555;">
+  <!-- ผลลัพธ์จากการจำลองการค้นหาจะมาโผล่ตรงนี้ -->
+      </div>
+      <div class="modal-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.70769156363!2d139.69811582522007!3d35.659572822594185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bcaeb0cd12b%3A0x20e563a2e0aec969!2sShibuya%20Crossing!5e0!3m2!1sth!2sth!4v1784004225066!5m2!1sth!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
       <div class="modal-footer">
         <button class="btn btn-secondary btn-sm" onclick="Dialog.close('confirm-modal')">ยกเลิก</button>
         <button class="btn btn-primary btn-sm" onclick="Dialog.confirm('confirm-modal')">ตกลง</button>

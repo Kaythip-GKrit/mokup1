@@ -1020,13 +1020,10 @@ function openAddPlaceMapDialog(dayId) {
   const body = document.getElementById("confirm-modal-body");
   body.innerHTML = `
     <div class="form-group">
-      <label class="form-label">ค้นหาสถานที่บนแผนที่</label>
+      <label class="form-label" style="font-size:1.5rem;">ค้นหาสถานที่บนแผนที่</label>
       <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
         <input type="text" id="map-search-place-input" class="form-input" placeholder="เช่น Shibuya Crossing หรือ Meiji shrine" value="Shibuya Crossing">
         <button class="btn btn-primary" onclick="simulateMapSearch()">ค้นหา</button>
-      </div>
-      <div id="map-search-result-pane" style="background:rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
-        <p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">กดปุ่มค้นหาเพื่อจำลองระบบระบุตำแหน่งสถานที่</p>
       </div>
     </div>
   `;

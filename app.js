@@ -199,6 +199,7 @@ const Dialog = {
     const overlay = document.getElementById(id);
     if (overlay) {
       overlay.classList.remove("active");
+      overlay.classList.remove("show-map"); // ลบ class แผนที่ออกทุกครั้งที่ปิด modal
     }
   },
   confirm(id, data = null) {
@@ -1028,6 +1029,10 @@ function openAddPlaceMapDialog(dayId) {
     </div>
   `;
 
+  // เพิ่ม class show-map เพื่อให้แสดงแผนที่เฉพาะ dialog นี้เท่านั้น
+  const mapModal = document.getElementById("confirm-modal");
+  if (mapModal) mapModal.classList.add("show-map");
+
   Dialog.open("confirm-modal", () => {
     // The "confirm" button of confirm-modal will serve as "Add place to trip"
     const trip = STATE.trips.find(t => t.id === STATE.activeTripId);
@@ -1172,7 +1177,7 @@ function renderSinglePackTab(trip, container) {
                 <span class="checkbox-checkmark"></span>
               </label>
               <span class="packing-item-text">${item.text}</span>
-              ${item.alert ?  `<span style=" font-family: "Kanit", Outfit;font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
+              ${item.alert ?  `<span style=" font-family: "Kanit", Outfit;font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;"> เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
             </div>
             <div class="packing-item-right">
               <button class="bell-btn ${alertBellActive}" title="ตั้งเวลาแจ้งเตือน" onclick="openAlertSettingsDialog('${member.username}', '${item.id}')">🔔</button>
@@ -1185,7 +1190,7 @@ function renderSinglePackTab(trip, container) {
 
     accBox.innerHTML = `
       <div class="accordion-header" style="background:rgba(255,255,255,0.02)">
-        <span class="accordion-title">👤 @${member.username.replace("@", "")} (${member.name}) ${isCurrentUser ? '(คุณ)' : ''}</span>
+        <span class="accordion-title"> @${member.username.replace("@", "")} (${member.name}) ${isCurrentUser ? '(คุณ)' : ''}</span>
         <span style="font-size:0.8rem; color:var(--text-muted); font-family: "Kanit", Outfit;">จัดแล้ว ${list.filter(i => i.checked).length}/${list.length} ชิ้น</span>
       </div>
       <div class="accordion-body" style="display:block;">
@@ -1201,8 +1206,8 @@ function renderSinglePackTab(trip, container) {
           </div>
           
           <div style="display:flex; gap:0.5rem;">
-            <button class="btn btn-secondary btn-sm" onclick="openUsePresetDialog('${member.username}')">🎒 ใช้พรีเซ็ท</button>
-            <button class="btn btn-secondary btn-sm" onclick="openDefaultItemsDialog('${member.username}')">📋 รายการแนะนำ</button>
+            <button class="btn btn-secondary btn-sm" onclick="openUsePresetDialog('${member.username}')">ใช้พรีเซ็ท</button>
+            <button class="btn btn-secondary btn-sm" onclick="openDefaultItemsDialog('${member.username}')">รายการแนะนำ</button>
           </div>
         </div>
         
@@ -1524,11 +1529,11 @@ function renderSharedPackTab(trip, container) {
             <span class="checkbox-checkmark"></span>
           </label>
           <span class="packing-item-text">${item.text}</span>
-          ${item.alert ? `<span style="font-family: "Kanit", Outfit; font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;">⏰ เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
+          ${item.alert ? `<span style="font-family: "Kanit", Outfit; font-size:0.7rem; color:var(--warning); background:rgba(245,158,11,0.1); padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem;"> เตือนทุก ${item.alert.hours} ชม. (${item.alert.count} ครั้ง)</span>` : ''}
         </div>
         <div style="font-size:0.75rem; padding-left:1.8rem; display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center;">
-          <span>📝 ${creatorText}</span>
-          <span>👤 ผู้รับผิดชอบ: <strong>${item.responsible || 'ยังไม่มี'}</strong></span>
+          <span> ${creatorText}</span>
+          <span> ผู้รับผิดชอบ: <strong>${item.responsible || 'ยังไม่มี'}</strong></span>
           <select class="sort-select" style="font-size:0.7rem; padding:0.1rem 0.3rem;" onchange="assignSharedItemResponsible('${item.id}', this.value)">
             <option value="">-- มอบหมาย --</option>
             ${trip.members.map(m => `<option value="${m.username}" ${item.responsible === m.username ? 'selected' : ''}>${m.name}</option>`).join("")}

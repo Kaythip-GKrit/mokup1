@@ -1590,12 +1590,15 @@ tr:hover td {
 }
 
 .modal-map {
+  display: none;
+}
+
+.modal-overlay.show-map .modal-map {
   width: 100%;
   height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background: red; */
   padding: 20px;
 }
 
